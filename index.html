@@ -102,6 +102,62 @@
 @media(min-width:651px){.gallery-carousel .gallery-item{flex-basis:32%!important;width:32%!important;}}
 @media(max-width:650px){.gallery-carousel .gallery-item{flex-basis:82%!important;width:82%!important;}.gallery-carousel .gallery-item img{aspect-ratio:4/3;height:auto!important;}.comparison-images img{height:165px;}}
 </style>
+
+<style>
+/* Ajuste final do carrossel: um trabalho por vez, sem mostrar a próxima foto */
+.gallery-carousel-title{
+  margin: 0 0 18px;
+  color: #f4f8fc;
+  font-size: clamp(20px, 3vw, 27px);
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+.gallery-carousel{
+  display:flex!important;
+  width:100%;
+  box-sizing:border-box;
+  overflow-x:auto;
+  overflow-y:hidden;
+  gap:0!important;
+  padding:4px 0 16px!important;
+  scroll-snap-type:x mandatory;
+  scroll-padding:0;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  border-radius:6px;
+  clip-path:inset(0 round 6px);
+}
+.gallery-carousel::-webkit-scrollbar{display:none}
+.gallery-carousel .gallery-item{
+  box-sizing:border-box;
+  flex:0 0 100%!important;
+  width:100%!important;
+  min-width:100%!important;
+  max-width:100%!important;
+  aspect-ratio:16/9;
+  height:auto;
+  scroll-snap-align:start!important;
+  scroll-snap-stop:always;
+  overflow:hidden;
+  margin:0!important;
+}
+.gallery-carousel .gallery-item img{
+  display:block;
+  width:100%!important;
+  height:100%!important;
+  min-height:220px;
+  max-height:440px;
+  object-fit:cover;
+  object-position:center;
+  border-radius:5px;
+}
+@media(max-width:650px){
+  .gallery-carousel-title{margin-bottom:14px}
+  .gallery-carousel .gallery-item{aspect-ratio:4/3}
+  .gallery-carousel .gallery-item img{min-height:220px;max-height:340px}
+}
+</style>
+
 </head>
 <body>
   <div class="topline"><span class="pulse"></span> ATENDIMENTO EXCLUSIVAMENTE COM AGENDAMENTO</div>
@@ -175,6 +231,7 @@
           <p>Limpeza e revitalização do motor da motocicleta</p>
         </article>
       </div>
+      <h3 class="gallery-carousel-title">Alguns dos nossos trabalhos</h3>
       <div class="gallery-grid gallery-carousel" aria-label="Galeria de fotos com rolagem automática">
         <figure class="gallery-item reveal"><img loading="lazy" src="fotos/foto-01.jpg" alt="Trabalho da Garagem do Juliano - foto 1"></figure>
         <figure class="gallery-item reveal"><img loading="lazy" src="fotos/foto-02.jpg" alt="Trabalho da Garagem do Juliano - foto 2"></figure>
@@ -221,7 +278,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 // Avanço automático do carrossel; pausa quando o usuário interage ou a aba fica oculta
 const carousel=document.querySelector('.gallery-carousel');
 let carouselTimer;
-function startCarousel(){if(!carousel)return;clearInterval(carouselTimer);carouselTimer=setInterval(()=>{if(document.hidden)return;const max=carousel.scrollWidth-carousel.clientWidth;if(carousel.scrollLeft>=max-8)carousel.scrollTo({left:0,behavior:'smooth'});else carousel.scrollBy({left:carousel.clientWidth*.72,behavior:'smooth'});},3200);}
+function startCarousel(){if(!carousel)return;clearInterval(carouselTimer);carouselTimer=setInterval(()=>{if(document.hidden)return;const max=carousel.scrollWidth-carousel.clientWidth;if(carousel.scrollLeft>=max-8)carousel.scrollTo({left:0,behavior:'smooth'});else carousel.scrollBy({left:carousel.clientWidth,behavior:'smooth'});},3200);}
 if(carousel){startCarousel();['touchstart','pointerdown','mouseenter'].forEach(ev=>carousel.addEventListener(ev,()=>clearInterval(carouselTimer)));['touchend','pointerup','mouseleave'].forEach(ev=>carousel.addEventListener(ev,startCarousel));}
 
 
